@@ -287,7 +287,7 @@ export const updateSection = async (data , token) => {
             UPDATE_SECTION_API,
             data,
             {
-                Auhtorization : `Bearer ${token}`,
+                Authorization : `Bearer ${token}`,
             }
         )
         
@@ -299,7 +299,7 @@ export const updateSection = async (data , token) => {
 
         toast.success("Course Section Updated");
 
-        result = response?.data?.data;
+        result = response?.data?.section;
     }
     catch(error) {
         console.log("UPDATE SECTION API ERROR ---> : " , error);
@@ -331,6 +331,8 @@ export const deletSection = async (data , token) => {
         }
 
         toast.success("Course Section Deleted");
+
+        console.log(response)
 
         result = response?.data?.data;
     }

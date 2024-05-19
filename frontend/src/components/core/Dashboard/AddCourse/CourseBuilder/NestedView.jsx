@@ -9,6 +9,7 @@ import {AiOutlinePlus} from "react-icons/ai";
 import { SubSectionModal } from './SubSectionModal';
 import { deletSection, deleteSubSection } from '../../../../../services/operations/courseDetailsAPI';
 import { setCourse } from '../../../../../slices/courseSlice';
+import ConfirmationModal from "../../../../common/ConfirmationModal";
 
 
 export const NestedView = ({handleChangeEditSectionName}) => {
@@ -30,6 +31,8 @@ export const NestedView = ({handleChangeEditSectionName}) => {
             token,
         })
 
+        console.log("After Deletion" , result);
+
         if(result) {
             dispatch(setCourse(result));
         }
@@ -43,14 +46,13 @@ export const NestedView = ({handleChangeEditSectionName}) => {
             sectionId ,
             token,
         })
-
+        console.log("After Deletion" , result)
         if(result) {
             dispatch(setCourse(result));
         }
 
         setConfirmationModal(null);
     }
-    console.log(course)
 
   return (
     <div>
@@ -166,7 +168,7 @@ export const NestedView = ({handleChangeEditSectionName}) => {
 
         {
             confirmationModal ? (
-                <confirmationModal
+                <ConfirmationModal
                     modalData = {confirmationModal}
                 />
             )
