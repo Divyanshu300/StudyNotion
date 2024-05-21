@@ -68,7 +68,7 @@ export const CourseBuilderForm = () => {
     }
 
     console.log("RESULT OF SUBMIT--->" , result);
-    console.log("COURSE OF SUBMIT--->" , course );
+    console.log("COURSE after SUBMIT--->" , course );
 
     //update values
     if(result) {
