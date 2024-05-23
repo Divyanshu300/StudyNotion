@@ -19,7 +19,7 @@ export const profileEndpoints = {
 export const studentEndpoints = {
     CAPTURE_PAYMENT_API : BASE_URL + "/payments/capturePayment",
     VERIFY_SIGNATURE_API : BASE_URL + "/payment/verifySignature",
-    SEND_PAYMENT_SUCCESS_EMAIL_API : BASE_URL + "/payment/sendPaymentSuccessEmail",
+    SEND_PAYMENT_SUCCESS_EMAIL_API : BASE_URL + "/payment/sendPaymentsuccessEmail",
 }
 
 //COURSE ENDPOINTS/API (course , category , section , subsection , rating and reviews)
