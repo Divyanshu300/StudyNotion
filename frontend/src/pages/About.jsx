@@ -12,8 +12,6 @@ import LearningGrid from '../components/core/About/LearningGrid';
 import ContactFormSection from '../components/core/About/ContactFormSection';
 import Footer from "../components/common/Footer"
 
-
-
 function About() {
   return (
     <div>
