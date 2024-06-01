@@ -59,7 +59,7 @@ export const RequirementFields = ({name , label , register , errors , setValue ,
                 </button>
             </div>
             {
-                requirementList.length > 0 && (
+                requirementList?.length > 0 && (
                     <ul className='mt-2 list-inside list-disc'>
                         {
                             requirementList.map((requirement , index) => (

@@ -299,7 +299,7 @@ export const updateSection = async (data , token) => {
 
         toast.success("Course Section Updated");
 
-        result = response?.data?.section;
+        result = response?.data?.data;
     }
     catch(error) {
         console.log("UPDATE SECTION API ERROR ---> : " , error);
@@ -332,14 +332,13 @@ export const deletSection = async (data , token) => {
 
         toast.success("Course Section Deleted");
 
-        console.log(response)
-
         result = response?.data?.data;
     }
     catch(error) {
         console.log("DELETE SECTION API ERROR---> : " , error);
         toast.error(error.message);
     }
+    return result;
 }
 
 

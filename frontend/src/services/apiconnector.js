@@ -4,6 +4,7 @@ export const axiosInstance = axios.create({});
 
 export const apiConnector = (method , url , bodyData , headers , params) => {
     console.log("Body Data : " , bodyData);
+    console.log("Body URL : " , url);
     return axiosInstance({
         method : `${method}`,
         url : `${url}`,

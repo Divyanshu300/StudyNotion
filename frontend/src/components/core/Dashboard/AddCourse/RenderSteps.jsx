@@ -31,8 +31,8 @@ export default function RenderSteps() {
                 steps.map((item) => (
                     <>
                         <div 
-                        key={item.id}
-                        className='flex flex-col items-center'
+                            key={item.id}   
+                            className='flex flex-col items-center'
                         >
                             <button className={`grid cursor-default w-[34px] place-items-center rounded-full border-[1px] ${
                                 step === item.id 

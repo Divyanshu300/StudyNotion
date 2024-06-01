@@ -68,14 +68,14 @@ export const CourseBuilderForm = () => {
     }
 
     console.log("RESULT OF SUBMIT--->" , result);
-    console.log("COURSE after SUBMIT--->" , course );
-
+    
     //update values
     if(result) {
       dispatch(setCourse(result));
       setEditSectionName(null);
       setValue("sectionName" , "");
     }
+    console.log("COURSE after SUBMIT--->" , course );
 
     //setLoading False
     setLoading(false);
@@ -138,7 +138,7 @@ export const CourseBuilderForm = () => {
         </div>
       </form>
       {
-        course.courseContent.length > 0 && (
+        course.courseContent?.length > 0 && (
           <NestedView handleChangeEditSectionName = {handleChangeEditSectionName}/>
         )
       }
