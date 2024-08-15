@@ -19,7 +19,7 @@ const contactUsRoutes = require("./routes/Contact");
 //Import Dotenv for accessing env file
 const dotenv = require("dotenv");
 dotenv.config();
-const PORT = process.env.PORT || 4000;
+    const PORT = process.env.PORT || 4000;
 
 //Import Cookie-Parser
 const cookieParser = require("cookie-parser");
@@ -43,6 +43,7 @@ app.use(
     fileUpload({
         useTempFiles : true,
         tempFileDir : "/tmp",
+        createParentPath: true,
     })
 )
 //fileUpload set krne ke baad hi cloudinary connect hoga

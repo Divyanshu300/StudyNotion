@@ -56,16 +56,20 @@ export const NestedView = ({handleChangeEditSectionName}) => {
         setConfirmationModal(null);
     }
 
+    console.log("UPDATED COURSE DATA: " , course.courseContent)
+
   return (
     <div>
-        <div className='rounded-lg bg-richblack-700 p-6 px-8'>
+        <div 
+            id="nestedViewContainer"
+            className='rounded-lg bg-richblack-700 p-6 px-8'>
             {
                 course?.courseContent?.map((section) => (
                     <details key={section._id} open>
-                        <summary className='flex items-center justify-between gap-x-3 border-b-2 '>
+                        <summary className="flex cursor-pointer items-center justify-between border-b-2 border-b-richblack-600 py-2">
                             <div className='flex items-center gap-x-3'>
-                                <RxDropdownMenu/>
-                                <p>
+                                <RxDropdownMenu className="text-2xl text-richblack-50"/>
+                                <p className="font-semibold text-richblack-50">
                                     {section.sectionName}
                                 </p>
                             </div>
@@ -73,7 +77,7 @@ export const NestedView = ({handleChangeEditSectionName}) => {
                                 <button
                                     onClick={() => handleChangeEditSectionName(section._id , section.sectionName)}
                                 >
-                                    <MdEdit/>
+                                    <MdEdit className="text-xl text-richblack-300"/>
                                 </button>
 
                                 <button
@@ -88,23 +92,24 @@ export const NestedView = ({handleChangeEditSectionName}) => {
                                         })
                                     }}
                                 >
-                                    <RiDeleteBin6Line/>
+                                    <RiDeleteBin6Line className="text-xl text-richblack-300"/>
                                 </button>
-                                <span>|</span>
+                                <span className="font-medium text-richblack-300">|</span>
                                 <BiSolidDownArrow className={`text-xl text-richblack-300`}/>
                             </div>
                         </summary>
 
-                        <div>
+                        <div className="px-6 pb-4">
                             {
                                 section?.subSection?.map((data) => (
                                     <div
                                         key={data?._id}
                                         onClick={()=>setViewSubSection(data)}
+                                        className="flex cursor-pointer items-center justify-between gap-x-3 border-b-2 border-b-richblack-600 py-2"
                                     >
-                                        <div className='flex items-center justify-between gap-x-3 border-b-2'>
-                                            <RxDropdownMenu/>
-                                            <p>
+                                        <div className="flex items-center gap-x-3 py-2 ">
+                                            <RxDropdownMenu className="text-2xl text-richblack-50" />
+                                            <p className="font-semibold text-richblack-50">
                                                 {data.title}
                                             </p>
                                         </div>
@@ -116,7 +121,7 @@ export const NestedView = ({handleChangeEditSectionName}) => {
                                             <button
                                                 onClick={() => setEditSubSection({...data , sectionId : section._id})}
                                             >
-                                                <MdEdit/>
+                                                <MdEdit className="text-xl text-richblack-300"/>
                                             </button>
 
                                             <button
@@ -129,7 +134,7 @@ export const NestedView = ({handleChangeEditSectionName}) => {
                                                     btn2Handler : () => setConfirmationModal(null),
                                                 })}
                                             >
-                                                <RiDeleteBin6Line/>
+                                                <RiDeleteBin6Line className="text-xl text-richblack-300"/>
                                             </button>
 
                                         </div>

@@ -10,7 +10,6 @@ require("dotenv").config();
 
 // Send OTP For Email Verification
 exports.sendotp = async (req , res) => {
-    console.log("Sendotp Controller--->");
     try {
         //fetch email from req ki body
         const {email} = req.body;
@@ -141,7 +140,7 @@ exports.signup = async(req , res) => {
                 message:'invalid otp',
             })
         }
-
+        
 
         //Hash Password
         const hashedPassword = await bcrypt.hash(password , 10);

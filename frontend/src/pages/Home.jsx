@@ -200,9 +200,8 @@ function Home() {
         
         {/* Footer */}
 
-        <div>
-            <Footer/>
-        </div>
+        <Footer/>
+    
     </div>
   )
 }

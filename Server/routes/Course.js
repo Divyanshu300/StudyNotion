@@ -57,7 +57,7 @@ router.get("/showAllCourses" , showAllCourses);
 router.post("/getCourseDetails" , getCourseDetails);
 
 //Courses associated with a single Instructor
-router.get("/getInstructorCourses" , getInstructorCourses);
+router.get("/getInstructorCourses" , auth , isInstructor , getInstructorCourses);
 
 
 

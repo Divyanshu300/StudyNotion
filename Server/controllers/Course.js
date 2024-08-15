@@ -11,19 +11,27 @@ const {convertSecondsToDuration} = require("../utils/secToDuration");
 // Function to create a new course
 exports.createCourse = async (req , res) => {
     try {
+        console.log("ye rhaa userr ------>    " , req.user)         
+
         //fetch data
         let {
             courseName, 
             courseDescription, 
             whatYouWillLearn, 
             price, 
-           // tag,
+            tag: _tag,
 			category,
 			status,
-			instructions} = req.body;
+			instructions : _instructions
+        } = req.body;
 
         //get thumbnail
-       // const thumbnail = req.files.thumbnailImage;
+        console.log("thumbnailiamge: " , req.files)
+        const thumbnail = req.files.thumbnailImage;
+
+        // Convert the tag and instructions from stringified Array to Array
+        const tag = JSON.parse(_tag)
+        const instructions = JSON.parse(_instructions)
 
         //validation
         if(
@@ -31,9 +39,9 @@ exports.createCourse = async (req , res) => {
             !courseDescription || 
             !whatYouWillLearn || 
             !price || 
-            //!tag || 
-            !category 
-            // || !thumbnail
+            !tag || 
+            !category || 
+            !thumbnail
         ) 
             {
             return res.status(400).json({
@@ -68,9 +76,9 @@ exports.createCourse = async (req , res) => {
             })
         }
 
-        //upload Image to cloudinary
-        // const thumbnailImage = await uploadImageToCloudinary(thumbnail , process.env.FOLDER_NAME);
-        // console.log(thumbnailImage);
+        // upload Image to cloudinary
+        const thumbnailImage = await uploadImageToCloudinary(thumbnail , process.env.FOLDER_NAME);
+        console.log("image aag gyuuu",thumbnailImage);
 
         // Create a new course with the given details
         const newCourse = await Course.create({
@@ -79,9 +87,9 @@ exports.createCourse = async (req , res) => {
             instructor:instructorDetails._id,
             whatYouWillLearn : whatYouWillLearn,
             price,
-            //tag: tag,
+            tag: tag,
             category: categoryDetails._id,
-           // thumbnail : thumbnailImage.secure_url,
+            thumbnail : thumbnailImage.secure_url,
             status : status,
 			instructions : instructions,
         })
@@ -118,6 +126,8 @@ exports.createCourse = async (req , res) => {
 //Function to edit a made course
 exports.editCourse = async(req , res) => {
     try {
+        console.log("ye rhaa userr ------>    " , req.user.id)         
+
         const {courseId} = req.body;
         const updates = req.body;
         const course = await Course.findById(courseId);
@@ -399,12 +409,14 @@ exports.getFullCourseDetails = async(req , res) => {
 exports.getInstructorCourses = async(req , res) => {
     try {
         //Get the instructor ID from the authenticated user or request body
+        console.log(req.user);
         const instructorId = req.user.id;
 
         //Find all courses belonging to the instructor
-        const instructorCourses = Course.find({
+        const instructorCourses = await Course.find({
             instructor : instructorId,
         }).sort({createdAt : -1})
+        console.log(instructorCourses)
 
         //Return the instructor's courses
         res.status(200).json({

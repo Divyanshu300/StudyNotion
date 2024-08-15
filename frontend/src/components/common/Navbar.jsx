@@ -3,7 +3,7 @@ import { Link, matchPath, useLocation } from 'react-router-dom'
 import logo from "../../assets/Logo/Logo-Full-Light.png"
 import {NavbarLinks} from "../../data/navbar-links";
 import { useSelector } from 'react-redux';
-import {AiOutlineShoppingCart} from "react-icons/ai"
+import {AiOutlineMenu, AiOutlineShoppingCart} from "react-icons/ai"
 import ProfileDropDown from '../core/Auth/ProfileDropDown';
 import { apiConnector } from '../../services/apiconnector.js';
 import { categoriesEndpoints } from '../../services/apis';
@@ -14,6 +14,7 @@ function Navbar() {
   const {token} = useSelector( (state) => state.auth ); 
   const {user} = useSelector( (state) => state.profile );
   const {totalItems} = useSelector( (state) => state.cart );
+  const [loading, setLoading] = useState(false)
 
   const location = useLocation()
   
@@ -41,7 +42,11 @@ function Navbar() {
 
 
   return (
-    <div className='flex h-14 items-center justify-center border-b-[1px] border-b-richblack-700'>
+    <div 
+      className={`flex h-14 items-center justify-center border-b-[1px] border-b-richblack-700 ${
+      location.pathname !== "/" ? "bg-richblack-800" : ""
+      } transition-all duration-200`}
+    >
         <div className='flex w-11/12 max-w-maxContent items-center justify-between'>
             {/* Image */}
             <Link to="/">
@@ -57,7 +62,13 @@ function Navbar() {
                       {
                         link.title === "Catalog" ? 
                         (
-                          <div className='relative flex items-center gap-2 group'>
+                          <div 
+                            className={`group relative flex cursor-pointer items-center gap-1 ${
+                              matchRoute("/catalog/:catalogName")
+                                ? "text-yellow-25"
+                                : "text-richblack-25"
+                            }`}
+                          >
                             <p>{link.title}</p>
                             <IoIosArrowDropdownCircle/>
 
@@ -66,11 +77,34 @@ function Navbar() {
                             opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100
                             lg:w-[300px]'>
 
-                              <div className='absolute left-[50%] top-0 translate-x-[80%]
-                              translate-y-[45%] h-6 w-6 rotate-45 rounded bg-richblack-5'>
-
+                              <div 
+                                className='absolute left-[50%] top-0 translate-x-[80%]
+                                translate-y-[45%] h-6 w-6 rotate-45 rounded bg-richblack-5'
+                              >
                               </div>
-
+                              {
+                                loading ? (
+                                  <p className='spinner'></p>
+                                ) : subLinks?.length ? (
+                                  <>
+                                    {
+                                      subLinks?.filter(
+                                        (sublink) => sublink?.courses?.length > 0 
+                                      )?.map((sublink , i) => (
+                                        <Link
+                                          to={`/catalog/${sublink.name.split(" ").join("-").toLowerCase()}`}
+                                          className='rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50'
+                                          key={i}
+                                        >
+                                          <p>{sublink.name}</p>
+                                        </Link>
+                                      ))
+                                    }
+                                  </>
+                                ) : (
+                                  <p className='text-center'>No Courses Found</p>
+                                )
+                              }
                             </div>
                           </div>
                         ) : 
@@ -89,7 +123,7 @@ function Navbar() {
             </nav>
 
             {/* Login/SignUp/Dashboard */}
-            <div className='flex gap-x-4 items-center'>
+            <div className='hidden  gap-x-4 items-center md:flex'>
 
               {
                 user && user?.accountType !== "Instructor" && (
@@ -97,7 +131,7 @@ function Navbar() {
                     <AiOutlineShoppingCart/>
                     {
                       totalItems > 0 && (
-                        <span>
+                        <span className="absolute -bottom-2 -right-2 grid h-5 w-5 place-items-center overflow-hidden rounded-full bg-richblack-600 text-center text-xs font-bold text-yellow-100">
                           {totalItems}
                         </span>
                       )
@@ -133,8 +167,9 @@ function Navbar() {
               }
 
             </div>
-
-
+            <button className="mr-4 md:hidden">
+              <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
+            </button>
         </div>
     </div>
   )

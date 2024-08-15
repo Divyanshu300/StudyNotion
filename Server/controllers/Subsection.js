@@ -6,36 +6,36 @@ const {uploadImageToCloudinary} = require("../utils/imageUploader")
 exports.createSubSection = async(req , res) => {
     try { 
         //fetch data from req ki body
+        console.log("Create Sub Section : " , req.files)
         const {title , description , sectionId} = req.body;
         //extract file/video
-        //const video = req.files.videoFile;
-        //data validation
-        if(!title || !description || !sectionId //|| !video
-
-        ) {
+        const video = req.files.video;
+        // data validation
+        if(!title || !description || !sectionId || !video) {
             return res.status(400).json({
                 success:false,
                 message:'All fields are required',
             });
         }
-        //upload video to cloudinary to fetch the video url
-        // const uploadDetails = await uploadImageToCloudinary(video , process.env.FOLDER_NAME)
-        // console.log(uploadDetails);
+        // upload video to cloudinary to fetch the video url
+        const uploadDetails = await uploadImageToCloudinary(video , process.env.FOLDER_NAME)
+        console.log(uploadDetails);
         //create a Sub-section
         const subSectionDetails = await SubSection.create({
             title : title,
-            //timeDuration :  `${uploadDetails.duration}`,
+            timeDuration :  `${uploadDetails.duration}`,
             description : description,
-            //videoUrl : uploadDetails.secure_url,
+            videoUrl : uploadDetails.secure_url,
         });
         console.log("SUBSECTION CREATED",subSectionDetails);
+        //HW: log updated section here , after adding populated query
         // Update the corresponding section with the newly created sub-section
         const updatedSection = await Section.findByIdAndUpdate({_id:sectionId},
                                                                 {$push:{
                                                                     subSection:subSectionDetails._id,
                                                                 }},
-                                                                {new:true});
-        //HW: log updated section here , after adding populated query
+                                                                {new:true})
+                                                                .populate("subSection");
         //return response
         return res.status(200).json({
             success:true,
@@ -56,7 +56,7 @@ exports.createSubSection = async(req , res) => {
 exports.updateSubSection = async (req , res) => {
     try {
         //fetch the data
-        const {subSectionId , title , description} = req.body;
+        const {subSectionId , title , description , sectionId} = req.body;
         console.log(req.body)
         //fetch the subsection using section id
         const subSection = await SubSection.findById(subSectionId);
@@ -89,12 +89,14 @@ exports.updateSubSection = async (req , res) => {
         await subSection.save();
 
         //find the updated SubSection 
-        const updatedSection = await Section.findById({sectionId})
+        const updatedSection = await Section.findById(sectionId)
                                                     .populate("subSection") 
+        console.log("SUBSECTION  : " , updatedSection)
         
         return res.json({
             success: true,
             message: "Section updated successfully",
+            data : updatedSection
           })
     }
     catch(error) {
@@ -128,7 +130,7 @@ exports.deleteSubSection = async (req , res) => {
         }
 
         //find the updated SubSection 
-        const updatedSection = await Section.findById({sectionId})
+        const updatedSection = await Section.findById(sectionId)
                                                     .populate("subSection") 
 
         //return response

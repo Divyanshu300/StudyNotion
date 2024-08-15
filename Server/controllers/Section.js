@@ -4,7 +4,9 @@ const SubSection = require("../models/SubSection");
 
 // CREATE a new section
 exports.createSection = async (req , res) => {
-    try {console.log("CREATE SECTION CONTROLLER KE ANDARR --->")
+        try {console.log("CREATE SECTION CONTROLLER KE ANDARR --->")
+    
+
         // Extract the required properties from the request body
         const {sectionName , courseId} = req.body;
 

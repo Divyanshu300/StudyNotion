@@ -11,8 +11,8 @@ import { RequirementFields } from './RequirementFields';
 import { setCourse, setStep } from '../../../../../slices/courseSlice';
 import { COURSE_STATUS } from '../../../../../utils/constants';
 import IconBtn from "../../../../common/IconBtn"; 
-import { Upload } from '../Upload';
-import { ChipInput } from './ChipInput';
+import Upload from '../Upload';
+import ChipInput from './ChipInput';
 
 export const CourseInformationForm = () => {
 
@@ -77,6 +77,7 @@ export const CourseInformationForm = () => {
 
     //handles next button click
     const onSubmit = async(data) => {
+        console.log(data)
         
         if(editCourse) {
             if(isFormUpdated()) {
@@ -108,8 +109,12 @@ export const CourseInformationForm = () => {
                 if(currentValues.courseRequirements.toString() !== course.instructions.toString()) {
                     formData.append("instructions" , JSON.stringify(data.courseRequirements));
                 }
+                
 
                 // IMAGE , TAGFS
+                if (currentValues.courseImage !== course.thumbnail) {
+                    formData.append("thumbnailImage", data.courseImage)
+                }
 
                 setLoading(true); 
                 const result = await editCourseDetails(formData , token);
@@ -129,11 +134,14 @@ export const CourseInformationForm = () => {
         const formData = new FormData();
         formData.append("courseName" , data.courseTitle);                         
         formData.append("courseDescription" , data.courseShortDesc);              
-        formData.append("price" , data.coursePrice);                              
+        formData.append("price" , data.coursePrice);            
+        formData.append("tag", JSON.stringify(data.courseTags))                  
         formData.append("whatYouWillLearn" , data.courseBenefits);                
         formData.append("category" , data.courseCategory);                        
         formData.append("instructions" , JSON.stringify(data.courseRequirements));
         formData.append("status" , COURSE_STATUS.DRAFT);
+        formData.append("thumbnailImage", data.courseImage)
+        console.log("hello wolrd" , data.courseImage)
 
         setLoading(true);
         const result = await addCourseDetails(formData , token);
@@ -253,7 +261,7 @@ export const CourseInformationForm = () => {
         </div>
 
         {/* Create a custom Component for hnadling tag input */}
-        {/* <ChipInput
+        <ChipInput
             label = "Tags"
             name = "courseTags"
             placeholder = "Enter tags and press enter" 
@@ -261,17 +269,17 @@ export const CourseInformationForm = () => {
             errors = {errors}
             setValue = {setValue}
             getValues = {getValues}
-        /> */}
+        />
 
         {/* create a component for showing and uploading media */}
-        {/* <Upload
-            label = "courseImage"
-            name =  "Course Thumbnail"
+        <Upload
+            label = "Course Thumbnail"
+            name =  "courseImage"
             register = {register}
             errors = {errors}
             setValue =  {setValue}
             editData = {editCourse ? course?.thumbnail : null}
-        /> */}
+        />
 
         {/* Benefits of the course */}
         <div className='flex flex-col space-y-2'>
@@ -281,7 +289,7 @@ export const CourseInformationForm = () => {
             <textarea
                 id='courseBenefits'
                 placeholder='Enter Benefits of the course'
-                {...register("CourseBenefits" , {required : true})}
+                {...register("courseBenefits" , {required : true})}
                 className='form-style resize-x-none min-h-[130px] w-full'
             />
             {
@@ -293,6 +301,7 @@ export const CourseInformationForm = () => {
             }
         </div>
 
+        {/* Requirements/Instructions */}
         <RequirementFields
             name = "courseRequirements"
             label = "Requirements/Instructions"

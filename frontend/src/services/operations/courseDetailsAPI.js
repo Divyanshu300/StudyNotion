@@ -42,7 +42,7 @@ export const addCourseDetails = async(data , token) => {
             CREATE_COURSE_API,
             data,
             {
-                "Content-Type" : "multipart/from-data",
+                "Content-Type": "multipart/form-data",
                 Authorization : `Bearer ${token}`,
             }
         )
@@ -223,7 +223,7 @@ export const fetchInstructorCourses = async (token) => {
             GET_ALL_INSTRUCTOR_COURSES_API , 
             null,
             {
-                Authorization : `Beare ${token}`,
+                Authorization : `Bearer ${token}`,
             }
         )
 
