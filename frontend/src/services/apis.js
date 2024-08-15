@@ -62,7 +62,7 @@ export const ratingAndReviewsEndpoints = {
 
 //CATEGORIES ENDPOINTS/API
 export const categoriesEndpoints = {
-    SHOW_ALL_CATEGORIES_API : BASE_URL + "/course/showAllCategories",
+    SHOW_ALL_CATEGORIES_API : BASE_URL + "/course/showAllcategories",
 }
 
 //CATALOG PAGE DATA / CATEGORY PAGE DETAILS ENDPOINTS/API

@@ -26,9 +26,9 @@ function Navbar() {
 
   const fetchSubLinks = async() => {
     try {
-        const result = await apiConnector("GET" , categoriesEndpoints.CATEGORIES_API);
+        const result = await apiConnector("GET" , categoriesEndpoints.SHOW_ALL_CATEGORIES_API);
         console.log("Printing Sublinks Result : " , result);
-        setSubLinks(result.data.data);
+        setSubLinks(result.data.allCategories);
     }
     catch(error) {
         console.log("could not fetch the category list");
@@ -39,7 +39,6 @@ function Navbar() {
   useEffect( () => {
     fetchSubLinks()
   } , [])
-
 
   return (
     <div 
@@ -54,7 +53,7 @@ function Navbar() {
             </Link>
 
             {/* Navbar Links */}
-            <nav>
+            <nav className="hidden md:block">
               <ul className='flex gap-x-6 text-richblack-25'>
                 {
                   NavbarLinks.map((link , index) => (
@@ -72,16 +71,15 @@ function Navbar() {
                             <p>{link.title}</p>
                             <IoIosArrowDropdownCircle/>
 
-                            <div className='invisible absolute left-[50%] translate-x-[50%] translate-y-[80%]
-                            top-[50%] flex flex-col rounded-md bg-richblack-5 p-4 text-richblack-900
-                            opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100
-                            lg:w-[300px]'>
-
-                              <div 
-                                className='absolute left-[50%] top-0 translate-x-[80%]
-                                translate-y-[45%] h-6 w-6 rotate-45 rounded bg-richblack-5'
+                            <div className="invisible absolute left-[50%] top-[50%] z-[1000] flex w-[200px] 
+                            translate-x-[-50%] translate-y-[3em] flex-col rounded-lg bg-richblack-5 p-4 
+                            text-richblack-900 opacity-0 transition-all duration-150 group-hover:visible 
+                            group-hover:translate-y-[1.65em] group-hover:opacity-100 lg:w-[300px]"
+                            >
+                              <div className="absolute left-[50%] top-0 -z-10 h-6 w-6 translate-x-[80%] 
+                              translate-y-[-40%] rotate-45 select-none rounded bg-richblack-5"
                               >
-                              </div>
+                              </div>  
                               {
                                 loading ? (
                                   <p className='spinner'></p>

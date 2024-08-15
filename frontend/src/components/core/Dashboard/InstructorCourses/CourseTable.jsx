@@ -5,6 +5,7 @@ import { COURSE_STATUS } from '../../../../utils/constants';
 import { deleteCourse, fetchInstructorCourses } from '../../../../services/operations/courseDetailsAPI';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import ConfirmationModal from '../../../common/ConfirmationModal';
+import { useNavigate } from 'react-router-dom';
 
 export const CourseTable = ({courses , setCourses}) => {
 
@@ -12,6 +13,7 @@ export const CourseTable = ({courses , setCourses}) => {
     const {token} = useSelector((state) => state.auth);
     const [loading , setLoading] = useState(false);
     const [confirmationModal , setConfirmationModal] = useState(null);
+    const navigate = useNavigate()
 
     const handleCourseDelete = async(courseId) => {
         setLoading(true);

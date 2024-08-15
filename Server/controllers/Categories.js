@@ -39,6 +39,7 @@ exports.createCategory = async (req , res) => {
 
 exports.showAllcategories = async (req , res) => {
     try {
+        console.log("SHOW ALL CATEGORIES KE ANDARR: ")
         //saare tags chahiye bss hrr category mein name and description hone chahiye
         const allCategories = await Category.find({} , {name:true , description:true});
         return res.status(200).json({
@@ -79,7 +80,19 @@ exports.categoryPageDetails = async(req , res) => {
                                             .populate("courses")
                                             .exec();
         //get top selling courses
-        
+        const allCategories = await Category.find()
+        .populate({
+            path : "courses",
+            match : { status : "Published" },
+            populate : {
+                path : "instructor",
+            },
+        })
+        .exec()
+
+        const allCourses = allCategories.flatMap((category) => category.courses);
+
+        const mostSellingCourses = allCourses.sort((a , b) => b.sold - a.sold).slice(0 , 10);
 
         //return response
         return res.status(200).json({
@@ -87,6 +100,7 @@ exports.categoryPageDetails = async(req , res) => {
             data:{
                 selectedCategory,
                 differentCategories,
+                mostSellingCourses 
             }
         })
     }

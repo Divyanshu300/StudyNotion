@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getFulCourseDetailsOfCourse } from '../../../../services/operations/courseDetailsAPI';
+import RenderSteps from '../AddCourse/RenderSteps';
+import { setCourse , setEditCourse } from '../../../../slices/courseSlice';
 
 const EditCourse = () => {
 
@@ -10,6 +12,7 @@ const EditCourse = () => {
     const { course } = useSelector((state) => state.course);
     const { token } = useSelector((state) => state.auth);
     const [loading , setLoading] = useState(false);
+    const navigate = useNavigate()
 
     useEffect(() => {
         const populateCourseDetails = async() => {
@@ -21,6 +24,8 @@ const EditCourse = () => {
             }
             setLoading(false);
         }
+
+        populateCourseDetails()
     } , [])
 
     if(loading) {
